@@ -99,6 +99,9 @@
     },
     "scripts": {
         "post-create-project-cmd": [
+            "@clean"
+        ],
+        "clean": [
             "chmod 777 log",
             "chmod 777 web/media",
             "rm -rf .resources LICENSE.md README.md",
