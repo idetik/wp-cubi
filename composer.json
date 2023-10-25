@@ -55,7 +55,6 @@
         "roots/wp-password-bcrypt": "^1.1.0",
         "inpsyde/wonolog": "^2.x-dev",
         "wpackagist-plugin/advanced-custom-fields": "^6.1.6",
-        "wpackagist-plugin/acf-extended": "^0.8.9.3",
         "wpackagist-plugin/query-monitor": "^3.12.3",
         "wpackagist-plugin/wp-crontrol": "^1.15.2",
         "wpackagist-plugin/user-switching": "^1.7.0",
