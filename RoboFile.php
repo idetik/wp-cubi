@@ -60,7 +60,7 @@ class RoboFile extends \Globalis\WP\Cubi\Robo\RoboFile
     ];
 
     const CONFIRM_CONFIG_BEFORE_DEPLOY  = true;
-    const THEME_SLUG  = WP_DEFAULT_THEME;
+    const THEME_SLUG  = 'starter';
 
     protected function wpUrl()
     {
