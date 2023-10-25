@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8ab7d9a66305547ff3f50d4553403c54",
+    "content-hash": "d9990ec62975bf427c088782bcdd9435",
     "packages": [
         {
             "name": "composer/installers",
@@ -814,16 +814,16 @@
         },
         {
             "name": "idetik/starter",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.com:idetik-group/packages/themetik/starter.git",
-                "reference": "ac41a92d45b989d069a31e8f36062c94a45857a5"
+                "reference": "3aca975ee6149a6f92f466a411aaf14038ca9b84"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://gitlab.com/api/v4/projects/51559843/packages/composer/archives/idetik/starter.zip?sha=ac41a92d45b989d069a31e8f36062c94a45857a5",
-                "reference": "ac41a92d45b989d069a31e8f36062c94a45857a5",
+                "url": "https://gitlab.com/api/v4/projects/51559843/packages/composer/archives/idetik/starter.zip?sha=3aca975ee6149a6f92f466a411aaf14038ca9b84",
+                "reference": "3aca975ee6149a6f92f466a411aaf14038ca9b84",
                 "shasum": ""
             },
             "type": "wordpress-theme",
@@ -3180,24 +3180,6 @@
                 "source": "https://github.com/wesbos/burner-email-providers"
             },
             "time": "2023-09-28T09:13:11+00:00"
-        },
-        {
-            "name": "wpackagist-plugin/acf-extended",
-            "version": "0.8.9.4",
-            "source": {
-                "type": "svn",
-                "url": "https://plugins.svn.wordpress.org/acf-extended/",
-                "reference": "tags/0.8.9.4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/acf-extended.0.8.9.4.zip"
-            },
-            "require": {
-                "composer/installers": "^1.0 || ^2.0"
-            },
-            "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/acf-extended/"
         },
         {
             "name": "wpackagist-plugin/advanced-custom-fields",
