@@ -5,16 +5,22 @@ use Globalis\WP\Cubi\Robo\DeployTrait;
 use Globalis\WP\Cubi\Robo\GitTrait;
 use Globalis\WP\Cubi\Robo\InstallTrait;
 use Globalis\WP\Cubi\Robo\WordPressTrait;
+use Idetik\Robo\BuildAssetsTrait;
+use Idetik\Robo\GenerateBlocksThumbnailTrait;
 
 class RoboFile extends \Globalis\WP\Cubi\Robo\RoboFile
 {
     use BuildTrait;
     use DeployTrait;
     use GitTrait;
-    use InstallTrait;
+    use InstallTrait {
+        install as traitInstall;
+    }
     use WordPressTrait {
         wpUrl as wpUrlInherited;
     }
+    use BuildAssetsTrait;
+    use GenerateBlocksThumbnailTrait;
 
     const ROOT                          = __DIR__;
 
@@ -63,9 +69,14 @@ class RoboFile extends \Globalis\WP\Cubi\Robo\RoboFile
         return $scheme . '://' . $domain . $path . '/wpcb';
     }
 
-    // public function buildAssets($environment = 'development', $root = \RoboFile::ROOT)
-    // {
-    //     // Write your own function, according to your assets build process
-    //     // Don't forget to update PATH_FILES_BUILD_ASSETS class constant, or the deploy option `--ignore-assets` won't work
-    // }
+    public function install($options = ['setup-wordpress' => false])
+    {
+        $this->traitInstall($options);
+
+        if ($this->io()->confirm('Would you like to generate page builder blocks thumbnails ?', false)) {
+            $this->generateThumbs();
+        } else {
+            return;
+        }
+    }
 }

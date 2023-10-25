@@ -41,7 +41,7 @@ if (!defined('ABSPATH')) {
 }
 
 /* THEME */
-define('WP_DEFAULT_THEME', 'wp-cubi-debug-theme');
+define('WP_DEFAULT_THEME', 'starter');
 
 /* UPDATES */
 // NOTE: If you need to edit this section, you may need to edit htaccess-security > "Block sensitive WordPress files" and WP_UNHOOKED_CONFIG
@@ -160,3 +160,10 @@ define('WP_UNHOOKED_CONFIG', [
     'disable-update-notices' => true,
     'disable-xmlrpc' => true,
 ]);
+
+/* ASSETS */
+define('ASSETS_VERSIONING_STYLES', true);
+define('ASSETS_VERSIONING_SCRIPTS', true);
+
+/* JQUERY */
+define('WP_CUBI_JQUERY_VERSION', '3.6.0');
