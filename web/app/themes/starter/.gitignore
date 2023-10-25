@@ -1,8 +1,0 @@
-node_modules/
-dist/
-vendor/
-
-# File system files
-.DS_Store
-*~
-.fuse*
