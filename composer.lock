@@ -814,16 +814,16 @@
         },
         {
             "name": "idetik/starter",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.com:idetik-group/packages/themetik/starter.git",
-                "reference": "860a5ea6d7f655b5497046cf0f963ed200038254"
+                "reference": "ea6c681a2d13c7eb06eda523f9490a9c6cb7ed5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://gitlab.com/api/v4/projects/51559843/packages/composer/archives/idetik/starter.zip?sha=860a5ea6d7f655b5497046cf0f963ed200038254",
-                "reference": "860a5ea6d7f655b5497046cf0f963ed200038254",
+                "url": "https://gitlab.com/api/v4/projects/51559843/packages/composer/archives/idetik/starter.zip?sha=ea6c681a2d13c7eb06eda523f9490a9c6cb7ed5d",
+                "reference": "ea6c681a2d13c7eb06eda523f9490a9c6cb7ed5d",
                 "shasum": ""
             },
             "type": "wordpress-theme",
@@ -3183,15 +3183,15 @@
         },
         {
             "name": "wpackagist-plugin/advanced-custom-fields",
-            "version": "6.2.1",
+            "version": "6.2.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/advanced-custom-fields/",
-                "reference": "tags/6.2.1"
+                "reference": "tags/6.2.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/advanced-custom-fields.6.2.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/advanced-custom-fields.6.2.2.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
