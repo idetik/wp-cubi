@@ -733,16 +733,16 @@
         },
         {
             "name": "idetik/coretik-page-builder",
-            "version": "v1.0.14",
+            "version": "v1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/idetik/coretik-page-builder.git",
-                "reference": "d1f7aa43b8272ff32a97aa5627a4cb2c561599ba"
+                "reference": "90ebbc316e688bafca34423e37c1cc8d8b498614"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/idetik/coretik-page-builder/zipball/d1f7aa43b8272ff32a97aa5627a4cb2c561599ba",
-                "reference": "d1f7aa43b8272ff32a97aa5627a4cb2c561599ba",
+                "url": "https://api.github.com/repos/idetik/coretik-page-builder/zipball/90ebbc316e688bafca34423e37c1cc8d8b498614",
+                "reference": "90ebbc316e688bafca34423e37c1cc8d8b498614",
                 "shasum": ""
             },
             "require": {
@@ -778,9 +778,9 @@
             "description": "Coretik page builer service",
             "support": {
                 "issues": "https://github.com/idetik/coretik-page-builder/issues",
-                "source": "https://github.com/idetik/coretik-page-builder/tree/v1.0.14"
+                "source": "https://github.com/idetik/coretik-page-builder/tree/v1.1.3"
             },
-            "time": "2023-06-20T20:33:20+00:00"
+            "time": "2023-10-25T15:32:34+00:00"
         },
         {
             "name": "idetik/service-acf-composer",
