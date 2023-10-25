@@ -1,0 +1,11 @@
+{
+    "name": "idetik/starter",
+    "description": "Idetik Theme starter",
+    "type": "wordpress-theme",
+    "authors": [
+        {
+            "name": "David",
+            "email": "david.daugreilh@idetik.fr"
+        }
+    ]
+}

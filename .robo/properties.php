@@ -42,4 +42,9 @@ return [
         'default' => '/your-project/web',
         'empty' => true,
     ],
+    'CHROME_PATH' => [
+        'question' => 'Chrome app',
+        'default' => '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome',
+        'empty' => true,
+    ],
 ];
