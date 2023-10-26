@@ -105,9 +105,15 @@
             "chmod 777 web/media",
             "rm -rf .git .resources LICENSE.md README.md",
             "rm -rf web/app/themes/starter/.gitlab-ci.yml",
+            "rm -rf web/app/themes/starter/.releaserc.json",
             "rm -rf web/app/themes/starter/CHANGELOG.md",
             "rm -rf web/app/themes/starter/composer.json",
-            "rm -rf web/app/themes/starter/composer.lock"
+            "rm -rf web/app/themes/starter/composer.lock",
+            "npm remove semantic-release --prefix web/app/themes/starter",
+            "npm remove @semantic-release/changelog --prefix web/app/themes/starter",
+            "npm remove @semantic-release/git --prefix web/app/themes/starter",
+            "npm remove @semantic-release/gitlab --prefix web/app/themes/starter",
+            "npm remove @semantic-release/release-notes-generator --prefix web/app/themes/starter"
         ]
     },
     "config": {
