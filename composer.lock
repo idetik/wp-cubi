@@ -814,16 +814,16 @@
         },
         {
             "name": "idetik/starter",
-            "version": "1.0.5",
+            "version": "1.0.6",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.com:idetik-group/packages/themetik/starter.git",
-                "reference": "9f80d736a290f681b4a5bd63a6137fecfc3806b2"
+                "reference": "b0de2f2817a3adcd8c744982ba407c80b9c884f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://gitlab.com/api/v4/projects/51559843/packages/composer/archives/idetik/starter.zip?sha=9f80d736a290f681b4a5bd63a6137fecfc3806b2",
-                "reference": "9f80d736a290f681b4a5bd63a6137fecfc3806b2",
+                "url": "https://gitlab.com/api/v4/projects/51559843/packages/composer/archives/idetik/starter.zip?sha=b0de2f2817a3adcd8c744982ba407c80b9c884f9",
+                "reference": "b0de2f2817a3adcd8c744982ba407c80b9c884f9",
                 "shasum": ""
             },
             "type": "wordpress-theme",
