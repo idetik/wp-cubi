@@ -120,8 +120,12 @@ add_action('acfe/init', function () {
     acfe_update_setting('modules/taxonomies', false);
     acfe_update_setting('modules/multilang', false);
     acfe_update_setting('modules/options', false);
-    acfe_update_setting('modules/performance', false);
-    acfe_update_setting('modules/ui', false);
+    acfe_update_setting('modules/performance', [
+        'engine' => 'hybrid',
+        'ui'     => true,
+    ]);
+    acfe_update_setting('modules/ui', true);
+    acfe_update_setting('modules/ui', true);
     acfe_update_setting('modules/rewrite_rules', false);
     acfe_update_setting('modules/templates', false);
     acfe_update_setting('modules/classic_editor', false);
