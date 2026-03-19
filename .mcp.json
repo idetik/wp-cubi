@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "coretik-blocks": {
+      "command": "npx",
+      "args": ["coretik-block-generator-mcp"],
+      "env": {
+        "CORETIK_PROJECT_ROOT": "./web/app/themes/starter-theme"
+      }
+    }
+  }
+}
