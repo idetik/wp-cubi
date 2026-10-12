@@ -78,3 +78,73 @@ add_filter('pre_option_https_migration_required', function () {
 
 add_filter('default_wp_template_part_areas', '__return_empty_array');
 add_filter('default_template_types', '__return_empty_array');
+
+/*
+ * Options absent by default and autoloaded once written: read them from alloptions only.
+ * Without this, each missing option costs one SQL query on every request.
+ */
+autoloaded_options_only([
+    'db_upgraded'                  => '',
+    'two_factor_enabled_providers' => null,
+]);
+
+function autoloaded_options_only(array $options)
+{
+    foreach ($options as $option => $absent) {
+        add_filter('pre_option_' . $option, function ($pre, $option, $default_value) use ($absent) {
+            $alloptions = wp_load_alloptions();
+
+            if (isset($alloptions[$option])) {
+                return maybe_unserialize($alloptions[$option]);
+            }
+
+            // pre_option only short-circuits on a value other than false
+            return false !== $default_value ? $default_value : $absent;
+        }, 10, 3);
+    }
+}
+
+/*
+ * Options read on every request but stored without autoload: autoload them on first read.
+ */
+force_options_autoload([
+    'uninstall_plugins',
+]);
+
+function force_options_autoload(array $options)
+{
+    foreach ($options as $option) {
+        add_filter('option_' . $option, function ($value, $option) {
+            if (!isset(wp_load_alloptions()[$option])) {
+                wp_set_option_autoload($option, true);
+            }
+            return $value;
+        }, 10, 2);
+    }
+}
+
+/*
+ * Theme block patterns: skip the transient lookup when the theme has no patterns directory
+ */
+add_action('init', function () {
+    if (!is_dir(get_stylesheet_directory() . '/patterns') && !is_dir(get_template_directory() . '/patterns')) {
+        remove_action('init', '_register_theme_block_patterns');
+    }
+}, 0);
+
+/*
+ * Classic themes without theme.json have no user global styles: skip the wp_global_styles query.
+ * The block editor and the REST API may create the global styles post, so they keep the query.
+ */
+add_filter('posts_pre_query', function ($posts, $wp_query) {
+    if ('wp_global_styles' !== $wp_query->get('post_type')) {
+        return $posts;
+    }
+    if (wp_is_block_theme() || wp_theme_has_theme_json() || wp_is_serving_rest_request()) {
+        return $posts;
+    }
+    if (is_admin() && function_exists('get_current_screen') && get_current_screen()?->is_block_editor()) {
+        return $posts;
+    }
+    return [];
+}, 10, 2);

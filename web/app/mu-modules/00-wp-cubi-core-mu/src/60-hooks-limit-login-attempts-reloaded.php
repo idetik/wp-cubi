@@ -108,3 +108,14 @@ if (defined("WP_CUBI_LIMIT_LOGIN_RESET_RETRIES_AFTER_DURATION_IN_HOURS")) {
         return WP_CUBI_LIMIT_LOGIN_RESET_RETRIES_AFTER_DURATION_IN_HOURS * HOUR_IN_SECONDS;
     });
 }
+
+// Avoid useless SQL requests
+
+add_filter('pre_transient_llar_dashboard_redirect', function () {
+    return '0';
+});
+
+// Login page cache notice (wp-cubi does not cache wp-login.php): the frontend probe still records issues through AJAX
+add_filter('pre_option_llar_login_page_cache_issue', function ($pre) {
+    return wp_doing_ajax() ? $pre : '';
+});

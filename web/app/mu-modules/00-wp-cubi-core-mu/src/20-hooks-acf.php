@@ -135,3 +135,17 @@ add_action('acfe/init', function () {
 add_filter('acf/settings/enable_post_types', '__return_false');
 add_filter('acf/settings/rest_api_enabled', '__return_false');
 add_filter('acf/settings/preload_blocks', '__return_false');
+
+/*
+ * Avoid useless SQL queries: options pages are registered in code
+ */
+add_filter('acf/settings/enable_options_pages_ui', '__return_false');
+
+/*
+ * Avoid useless SQL queries: the license is disabled above (pre_option_acf_pro_license), so there is no status to check
+ */
+if (!defined('ACF_PRO_LICENSE')) {
+    add_filter('pre_option_acf_pro_license_status', '__return_empty_array');
+    add_filter('pre_transient_acf_pro_license_reactivated', '__return_true');
+    add_filter('pre_transient_acf_activation_error', '__return_empty_array');
+}
