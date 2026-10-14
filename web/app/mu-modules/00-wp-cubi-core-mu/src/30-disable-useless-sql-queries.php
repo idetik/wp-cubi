@@ -70,6 +70,14 @@ add_filter('pre_site_transient_theme_roots', function () {
 
 add_action('admin_init', function () {
     remove_action('admin_init', ['WP_Privacy_Policy_Content', 'text_change_check'], 100);
+    remove_action('admin_notices', ['WP_Privacy_Policy_Content', 'notice']);
+});
+
+/*
+ * Privacy policy page notice: one get_post() on every edit screen (wp-unhooked moves it to edit_form_after_title)
+ */
+add_action('edit_form_top', function () {
+    remove_action('edit_form_after_title', ['WP_Privacy_Policy_Content', 'notice']);
 });
 
 add_filter('pre_option_https_migration_required', function () {
@@ -109,6 +117,7 @@ function autoloaded_options_only(array $options)
  */
 force_options_autoload([
     'uninstall_plugins',
+    'user_count',
 ]);
 
 function force_options_autoload(array $options)
