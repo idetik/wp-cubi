@@ -148,3 +148,31 @@ add_filter('posts_pre_query', function ($posts, $wp_query) {
     }
     return [];
 }, 10, 2);
+
+/*
+ * Admin list tables call wp(), which matches the admin URL against the rewrite rules (and runs get_page_by_path()).
+ * WP::parse_request() drops the matched permalink vars on admin requests: use rules that never match during parsing.
+ */
+add_filter('do_parse_request', function ($do_parse, $wp) {
+    if (!is_admin() || wp_doing_ajax()) {
+        return $do_parse;
+    }
+
+    $never_match = fn () => ['(?!)' => 'index.php'];
+    add_filter('pre_option_rewrite_rules', $never_match);
+    add_action('parse_request', function () use ($never_match) {
+        remove_filter('pre_option_rewrite_rules', $never_match);
+        $GLOBALS['wp_rewrite']->rules = null;
+    });
+
+    return $do_parse;
+}, 10, 2);
+
+/*
+ * List screens enqueue the media modal (ACF Extended list forms) but rarely use it: skip the months dropdown query
+ */
+foreach (['load-edit.php', 'load-users.php', 'load-edit-tags.php'] as $list_screen) {
+    add_action($list_screen, function () {
+        add_filter('media_library_months_with_files', '__return_empty_array');
+    });
+}
