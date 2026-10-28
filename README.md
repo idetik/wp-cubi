@@ -135,6 +135,7 @@ To avoid unwanted rollbacks when deploying, wp-cubi deploy command will check be
 * `./vendor/bin/robo release:finish [--semversion=<version>]`
 * `./vendor/bin/robo deploy <environment> <version> [--ignore-assets] [--ignore-composer]`
 * `./vendor/bin/robo deploy:setup <environment>`
+* `./vendor/bin/robo deploy:seed <environment>`
 * `./vendor/bin/robo media:dump <environment> [--delete]`
 * `./vendor/bin/robo media:push <environment> [--delete]`
 
@@ -163,6 +164,18 @@ For advanced configuration (adding channels or handlers), you can edit [`./web/a
 wp-cubi provides a basic deploy command `./vendor/bin/robo deploy` that builds the application and deploys it with `rsync`.
 
 You can build your own deploy method using [Deployer](https://deployer.org/), [Capistrano](https://capistranorb.com/) or any other tool by editing [`./RoboFile.php`](https://github.com/globalis-ms/wp-cubi/blob/master/RoboFile.php).
+
+### First deployment
+
+Starting from an empty database, instead of uploading a local one:
+
+1. Create the empty database on the server (credentials of `config/vars.<environment>.php`)
+2. `./vendor/bin/robo deploy:setup <environment>`
+3. `./vendor/bin/robo deploy <environment> <version>`: once deployed, it offers to run `deploy:seed`, since WordPress is not installed yet (`install.php` stays public until then)
+
+`./vendor/bin/robo deploy:seed <environment>` runs the deployed WP-CLI (`vendor/bin/wp`) through SSH: `core install` (the admin password goes through stdin, not the remote command line), theme and plugins activation, `SEED_LANGUAGE` activation (translations of `web/app/languages` must be committed), then the theme migrations of `SEED_MIGRATIONS` with `wp app migrate <key>...`. It stops when WordPress is already installed: an existing database is never replaced.
+
+The `initial-seeder` migration of the starter theme saves the Coretik roles, the settings (timezone, date formats, permalinks, comments, indexation on production only), deletes the default content, creates a draft contact page and an empty menu for each location. Edit it, or add migrations to `SEED_MIGRATIONS`, for the content of your application. `wp app migrate` runs any migration of the theme, as `?migration-request=<key>` does from the back-office.
 
 
 ## Where is the block editor gone ?
