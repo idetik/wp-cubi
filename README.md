@@ -57,7 +57,7 @@ Built with [Composer](http://getcomposer.org) dependency manager and [Robo](http
    `clean` removes the wp-cubi history and ends with `./vendor/bin/robo project:init`: theme folder, name and PHP namespace of the project (the starter theme is renamed, every reference to it updated, the `idetik/starter` package removed).
 2. Run installation command and answer the questions: `./vendor/bin/robo install --setup-wordpress`
 3. Access your new site administration: `/wpcb/wp-admin/`
-4. Versioning: `git init`, branches `master` and `develop`, then protect them (see [CONTRIBUTING.md](CONTRIBUTING.md)). `composer install` installs the commit message hook.
+4. Versioning: `git init && composer git-hooks` (commit message hook), branches `master` and `develop`, then protect them (see [CONTRIBUTING.md](CONTRIBUTING.md)).
 5. Fill `docs/maquettes/` (UX handoff, `tokens.css`) and `CLAUDE.md`.
 
 Workflow, tests and production checklist: [CONTRIBUTING.md](CONTRIBUTING.md).
