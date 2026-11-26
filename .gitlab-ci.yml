@@ -1,0 +1,77 @@
+# Quality checks on every merge request and on the main branches: commit messages (Conventional Commits, merge
+# requests only), coding standard (phpcs), static analysis (phpstan, baseline phpstan-baseline.neon), unit tests,
+# integration tests (WordPress test suite + MySQL).
+#
+# CI/CD variables (Settings > CI/CD > Variables, "Masked", not "Protected" so that merge requests get them):
+# - GITLAB_PACKAGES_TOKEN: token with read_api on the idetik group (Composer packages: acf-extended-pro…)
+# - ACF_PRO_KEY / ACF_PRO_URL: only if the project requires ACF Pro (http-basic of connect.advancedcustomfields.com,
+#   then uncomment the line below)
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH =~ /^(release|hotfix)_/
+
+default:
+  image: php:8.4-cli
+  cache:
+    key:
+      files:
+        - composer.lock
+    paths:
+      - vendor/
+  before_script:
+    - apt-get update -qq && apt-get install -y -qq git unzip libzip-dev libpng-dev > /dev/null
+    - docker-php-ext-install -j"$(nproc)" zip gd mysqli pdo_mysql > /dev/null
+    - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    - composer config --global gitlab-token.gitlab.com "$GITLAB_PACKAGES_TOKEN"
+    # - composer config --global http-basic.connect.advancedcustomfields.com "$ACF_PRO_KEY" "$ACF_PRO_URL"
+    - composer install --no-interaction --no-progress --prefer-dist
+
+stages:
+  - quality
+  - test
+
+commits:
+  stage: quality
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  variables:
+    # Full history: the base commit of the merge request must be known
+    GIT_DEPTH: "0"
+  script:
+    - vendor/bin/robo commits:check "$CI_MERGE_REQUEST_DIFF_BASE_SHA..HEAD"
+
+phpcs:
+  stage: quality
+  script:
+    - composer lint
+
+phpstan:
+  stage: quality
+  script:
+    - composer analyse -- --no-progress --error-format=gitlab > phpstan-report.json || (cat phpstan-report.json && exit 1)
+  artifacts:
+    when: always
+    reports:
+      codequality: phpstan-report.json
+
+unit:
+  stage: test
+  script:
+    - composer test
+
+integration:
+  stage: test
+  services:
+    - name: mysql:8.4
+      alias: mysql
+  variables:
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_DATABASE: wp_cubi_tests
+    WP_TESTS_DB_HOST: mysql
+    WP_TESTS_DB_NAME: wp_cubi_tests
+    WP_TESTS_DB_USER: root
+    WP_TESTS_DB_PASSWORD: root
+  script:
+    - composer test:integration
