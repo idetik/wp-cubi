@@ -1,0 +1,212 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to an undefined method Coretik\\Core\\Builders\\Interfaces\\BuilderInterface\:\:model\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: web/app/themes/starter/src/Models/Contact.php
+
+		-
+			message: '#^Call to an undefined method Coretik\\App\:\:email\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: web/app/themes/starter/src/Services/Contact/Form.php
+
+		-
+			message: '#^Call to an undefined method Coretik\\App\:\:map\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: web/app/themes/starter/src/Services/Contact/Form.php
+
+		-
+			message: '#^Call to an undefined method Coretik\\Core\\Builders\\Interfaces\\BuilderInterface\:\:model\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: web/app/themes/starter/src/Services/Contact/Form.php
+
+		-
+			message: '#^Function acf_add_options_sub_page not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: web/app/themes/starter/src/Services/Mapping/Ids.php
+
+		-
+			message: '#^Parameter \#1 \$key of method MyNamespace\\Services\\Mapping\\Ids\:\:is\(\) expects string, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: web/app/themes/starter/src/Services/Mapping/Map.php
+
+		-
+			message: '#^Call to an undefined method Coretik\\Core\\Builders\\Interfaces\\BuilderInterface\:\:model\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: web/app/themes/starter/src/Services/Mapping/Permalinks.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$template$#'
+			identifier: parameter.notFound
+			count: 1
+			path: web/app/themes/starter/src/Services/Mapping/Templates.php
+
+		-
+			message: '#^Variable \$_GET on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.variable
+			count: 1
+			path: web/app/themes/starter/src/Services/Migration/Core/Launcher/Admin.php
+
+		-
+			message: '#^Call to an undefined method Coretik\\Core\\Builders\\Interfaces\\BuilderInterface\:\:query\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: web/app/themes/starter/src/Services/Migration/Seed/InitialSeeder.php
+
+		-
+			message: '#^Call to an undefined method Coretik\\App\:\:carbon\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: web/app/themes/starter/src/Services/Migration/Seed/SessionsTestSeeder.php
+
+		-
+			message: '#^Call to an undefined method Coretik\\Core\\Builders\\Interfaces\\BuilderInterface\|Coretik\\Core\\Schema\:\:model\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: web/app/themes/starter/src/Services/Migration/Seed/SessionsTestSeeder.php
+
+		-
+			message: '#^Call to an undefined method Coretik\\Core\\Builders\\Interfaces\\BuilderInterface\|Coretik\\Core\\Schema\:\:query\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: web/app/themes/starter/src/Services/Migration/Seed/SessionsTestSeeder.php
+
+		-
+			message: '#^Constant APP_POST_TYPE_FORMATION not found\.$#'
+			identifier: constant.notFound
+			count: 1
+			path: web/app/themes/starter/src/Services/Migration/Seed/SessionsTestSeeder.php
+
+		-
+			message: '#^Constant APP_POST_TYPE_SESSION not found\.$#'
+			identifier: constant.notFound
+			count: 1
+			path: web/app/themes/starter/src/Services/Migration/Seed/SessionsTestSeeder.php
+
+		-
+			message: '#^Match expression does not handle remaining value\: string$#'
+			identifier: match.unhandled
+			count: 1
+			path: web/app/themes/starter/src/Services/Normalizer/Normalize.php
+
+		-
+			message: '#^Function tsf not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: web/app/themes/starter/src/Services/Seo/Modules/StructuredData.php
+
+		-
+			message: '#^Parameter \#1 \$num of function abs expects float\|int, string\|false given\.$#'
+			identifier: argument.type
+			count: 4
+			path: web/app/themes/starter/src/Services/Seo/Modules/StructuredData.php
+
+		-
+			message: '#^Call to an undefined method Coretik\\Core\\Builders\\Interfaces\\BuilderInterface\:\:model\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: web/app/themes/starter/src/Services/Seo/Modules/Thumbnail.php
+
+		-
+			message: '#^Call to an undefined method Coretik\\Core\\Builders\\Interfaces\\BuilderInterface\|Coretik\\Core\\Schema\:\:model\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: web/app/themes/starter/src/Services/Seo/Modules/Thumbnail.php
+
+		-
+			message: '#^Function tsf not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: web/app/themes/starter/src/Services/Seo/Modules/Thumbnail.php
+
+		-
+			message: '''
+				#^PHPDoc tag @return has invalid value \(\[
+				    'id',
+				    'name',
+				    'icon',
+				    'url',
+				\]\)\: Unexpected token "\\n     \* ", expected type at offset 20 on line 2$#
+			'''
+			identifier: phpDoc.parseError
+			count: 1
+			path: web/app/themes/starter/src/Services/WP/Options/SocialsNetworks.php
+
+		-
+			message: '#^Function acf_add_options_sub_page not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: web/app/themes/starter/src/Services/WP/Setup/Acf.php
+
+		-
+			message: '#^Call to an undefined method Coretik\\App\:\:map\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: web/app/themes/starter/src/Services/WP/Setup/Admin/Menu.php
+
+		-
+			message: '#^Found usage of constant DOING_AJAX\. Use wp_doing_ajax\(\) instead\.$#'
+			identifier: phpstanWP.wpConstant.fetch
+			count: 1
+			path: web/app/themes/starter/src/Services/WP/Setup/Admin/SimplifiedView.php
+
+		-
+			message: '#^Constant APP_AXEPTIO_ID not found\.$#'
+			identifier: constant.notFound
+			count: 1
+			path: web/app/themes/starter/src/Services/WP/Setup/Axeptio.php
+
+		-
+			message: '#^Constant APP_AXEPTIO_VERSION not found\.$#'
+			identifier: constant.notFound
+			count: 1
+			path: web/app/themes/starter/src/Services/WP/Setup/Axeptio.php
+
+		-
+			message: '#^Call to an undefined method Coretik\\App\:\:assets\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: web/app/themes/starter/src/Services/WP/Setup/Gdpr.php
+
+		-
+			message: '#^Function Globalis\\GDPR\\include_template not found\.$#'
+			identifier: function.notFound
+			count: 2
+			path: web/app/themes/starter/src/Services/WP/Setup/Gdpr.php
+
+		-
+			message: '#^Constant APP_GOOGLE_ANALYTICS not found\.$#'
+			identifier: constant.notFound
+			count: 2
+			path: web/app/themes/starter/src/Services/WP/Setup/GoogleAnalytics.php
+
+		-
+			message: '#^Call to an undefined method Coretik\\App\:\:map\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: web/app/themes/starter/src/Services/WP/Setup/Mapping.php
+
+		-
+			message: '#^Call to an undefined method Coretik\\App\:\:assets\(\)\.$#'
+			identifier: method.notFound
+			count: 8
+			path: web/app/themes/starter/src/config/assets.php
+
+		-
+			message: '#^Call to an undefined method Coretik\\App\:\:map\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: web/app/themes/starter/src/config/schema/page.php
+
+		-
+			message: '#^Call to an undefined method Coretik\\Core\\Builders\\Interfaces\\BuilderInterface\:\:factory\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: web/app/themes/starter/src/config/schema/page.php

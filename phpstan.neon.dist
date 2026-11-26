@@ -1,0 +1,31 @@
+# Static analysis: vendor/bin/phpstan (composer analyse). Baseline: errors known when the project started, to be
+# fixed over time; new code must not add any (regenerate it only to remove fixed entries: --generate-baseline).
+includes:
+    - phpstan-baseline.neon
+
+parameters:
+    level: 5
+    phpVersion: 80400
+    paths:
+        - web/app/themes/starter/src
+        - web/app/mu-modules/00-wp-cubi-core-mu/src/01-sentry.php
+        - web/app/mu-modules/00-wp-cubi-core-mu/src/05-log-redaction.php
+        - web/app/mu-modules/00-wp-cubi-core-mu/src/06-log-http-listener.php
+    excludePaths:
+        - web/app/themes/starter/src/admin/fields (?)
+    bootstrapFiles:
+        - tests/phpstan/bootstrap.php
+    scanFiles:
+        - vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php
+    scanDirectories:
+        - web/app/modules/advanced-custom-fields
+        - web/app/modules/acf-extended-pro
+    dynamicConstantNames:
+        - WP_ENV
+        - WP_CUBI_CONFIG
+        - ASSETS_VERSIONING_STYLES
+        - ASSETS_VERSIONING_SCRIPTS
+    treatPhpDocTypesAsCertain: false
+    # Coretik models: declared metas are read and written as magic properties (__get / __set)
+    universalObjectCratesClasses:
+        - Coretik\Core\Models\Model

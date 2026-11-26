@@ -63,7 +63,8 @@
         "phpstan/phpstan": "^2.1",
         "szepeviktor/phpstan-wordpress": "^2.0",
         "phpstan/extension-installer": "^1.4",
-        "symfony/console": "^6.4"
+        "symfony/console": "^6.4",
+        "php-stubs/wp-cli-stubs": "^2.11"
     },
     "autoload-dev": {
         "psr-4": {
