@@ -39,3 +39,14 @@
 # WordPress Media / Uploads
 /web/media/*
 !/web/media/.gitkeep
+
+# Claude Code local settings and worktrees (CLAUDE.md and .mcp.json are versioned)
+/.claude/settings.local.json
+/.claude/worktrees
+
+# Default folder of WordPress / Wonolog when the project config is not loaded (media are in web/media)
+/web/app/uploads
+
+# PHPUnit
+/.phpunit.result.cache
+/.phpunit.cache
