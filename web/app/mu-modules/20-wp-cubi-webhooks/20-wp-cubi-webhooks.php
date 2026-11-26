@@ -19,11 +19,16 @@ function trigger_webhooks()
         return;
     }
 
-    if (!isset($_GET['wp-cubi-webhooks-secret'])) {
+    if (!isset($_GET['wp-cubi-webhooks-secret']) || !is_string($_GET['wp-cubi-webhooks-secret'])) {
         return;
     }
 
-    if (WP_CUBI_WEBHOOKS_SECRET !== $_GET['wp-cubi-webhooks-secret']) {
+    // No secret defined for this environment (config/vars.php): webhooks disabled
+    if (!defined('WP_CUBI_WEBHOOKS_SECRET') || '' === (string)WP_CUBI_WEBHOOKS_SECRET) {
+        return;
+    }
+
+    if (!hash_equals((string)WP_CUBI_WEBHOOKS_SECRET, $_GET['wp-cubi-webhooks-secret'])) {
         return;
     }
 

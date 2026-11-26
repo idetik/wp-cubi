@@ -1,0 +1,26 @@
+/* <Projet> — variables de la charte (couleurs relevées sur <logo / charte>, <date>). Police : <police>.
+   Le thème reprend ces variables telles quelles : aucune couleur en dur ailleurs. */
+:root {
+  /* Marque */
+  --brand-primary: #000000;      /* en-têtes, titres, liens */
+  --brand-secondary: #000000;    /* accents */
+  --brand-action: #000000;       /* boutons principaux : contraste 4,5:1 minimum avec leur texte */
+  --brand-action-hover: #000000;
+
+  /* Neutres */
+  --text: #1A1A2E;
+  --text-secondary: #64748B;
+  --border: #E2E8F0;
+  --background-page: #F5F7FA;
+  --background-card: #FFFFFF;
+
+  /* Statuts (indépendants de la marque) */
+  --status-ok-background: #DCFCE7;      --status-ok-text: #166534;
+  --status-warning-background: #FEF3C7; --status-warning-text: #92400E;
+  --status-error-background: #FEE2E2;   --status-error-text: #991B1B;
+  --status-neutral-background: #F1F5F9; --status-neutral-text: #475569;
+
+  --radius-card: 10px;
+  --radius-button: 8px;
+  --font: system-ui, sans-serif;
+}

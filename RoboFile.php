@@ -2,11 +2,11 @@
 
 use Globalis\WP\Cubi\Robo\BuildTrait;
 use Globalis\WP\Cubi\Robo\DeployTrait;
-use Globalis\WP\Cubi\Robo\GitTrait;
 use Globalis\WP\Cubi\Robo\InstallTrait;
 use Globalis\WP\Cubi\Robo\WordPressTrait;
 use Idetik\Robo\BuildAssetsTrait;
 use Idetik\Robo\GenerateBlocksThumbnailTrait;
+use Idetik\Robo\ReleaseTrait;
 
 class RoboFile extends \Globalis\WP\Cubi\Robo\RoboFile
 {
@@ -14,7 +14,8 @@ class RoboFile extends \Globalis\WP\Cubi\Robo\RoboFile
     use DeployTrait {
         deploy as protected traitDeploy;
     }
-    use GitTrait;
+    // git-flow releases driven by Conventional Commits (release:start, release:finish, commits:check…)
+    use ReleaseTrait;
     use InstallTrait {
         install as traitInstall;
     }
@@ -66,6 +67,85 @@ class RoboFile extends \Globalis\WP\Cubi\Robo\RoboFile
     const SEED_LANGUAGE = 'fr_FR';
     // Theme migrations run by deploy:seed (wp app migrate <key>...)
     const SEED_MIGRATIONS = ['initial-seeder'];
+
+    /**
+     * New project from the starter: renames the theme (folder, namespace, name) and every reference to it, then removes
+     * the idetik/starter package. Run once, right after the clone (composer run-script clean runs it).
+     */
+    public function projectInit()
+    {
+        $themes = static::ROOT . '/web/app/themes';
+        if (!is_dir($themes . '/starter')) {
+            $this->io()->note('No web/app/themes/starter folder: the project is already initialized.');
+            return 0;
+        }
+
+        $this->io()->title('New project');
+        $slug = $this->io()->ask('Theme folder (slug)', basename(static::ROOT), function ($value) {
+            if (!preg_match('/^[a-z0-9][a-z0-9-]*$/', (string) $value) || 'starter' === $value) {
+                throw new \RuntimeException('Lowercase letters, digits and dashes only, other than "starter".');
+            }
+            return $value;
+        });
+        $name = $this->io()->ask('Theme name', ucwords(str_replace('-', ' ', $slug)));
+        $namespace = $this->io()->ask('PHP namespace of the theme', str_replace(' ', '', ucwords(preg_replace('/[^a-z0-9]+/', ' ', $slug))), function ($value) {
+            if (!preg_match('/^[A-Z][A-Za-z0-9]*$/', (string) $value)) {
+                throw new \RuntimeException('A StudlyCase PHP namespace, e.g. Acme.');
+            }
+            return $value;
+        });
+
+        rename($themes . '/starter', $themes . '/' . $slug);
+
+        // Theme: namespace and name
+        $replace = function (string $file, array $pairs) {
+            $content = file_get_contents($file);
+            $replaced = strtr($content, $pairs);
+            if ($replaced !== $content) {
+                file_put_contents($file, $replaced);
+            }
+        };
+        $files = new \RecursiveIteratorIterator(new \RecursiveCallbackFilterIterator(
+            new \RecursiveDirectoryIterator($themes . '/' . $slug, \FilesystemIterator::SKIP_DOTS),
+            fn (\SplFileInfo $file) => !in_array($file->getFilename(), ['node_modules', 'dist', 'vendor', '.git'], true)
+        ));
+        foreach ($files as $file) {
+            if (in_array($file->getExtension(), ['php', 'js', 'mjs', 'json', 'scss', 'css', 'md', 'twig', 'html'], true)) {
+                $replace($file->getPathname(), ['MyNamespace' => $namespace]);
+            }
+        }
+        $replace($themes . '/' . $slug . '/style.css', ['Starter Idetik' => $name]);
+
+        // Project: every reference to the starter theme
+        $pairs = ['themes/starter' => 'themes/' . $slug, 'MyNamespace' => $namespace];
+        foreach (['composer.json', 'config/application.php', '.mcp.json', 'phpunit.xml.dist', 'phpunit-integration.xml.dist', 'phpstan.neon.dist', '.gitlab-ci.yml', 'CLAUDE.md'] as $file) {
+            if (is_file(static::ROOT . '/' . $file)) {
+                $replace(static::ROOT . '/' . $file, $pairs);
+            }
+        }
+        if (is_dir(static::ROOT . '/tests')) {
+            foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(static::ROOT . '/tests', \FilesystemIterator::SKIP_DOTS)) as $file) {
+                if ('php' === $file->getExtension()) {
+                    $replace($file->getPathname(), $pairs);
+                }
+            }
+        }
+        $replace(static::ROOT . '/config/application.php', ["define('WP_DEFAULT_THEME', 'starter');" => sprintf("define('WP_DEFAULT_THEME', '%s');", $slug)]);
+        // Patterns, not the literal lines: strtr() would also rewrite them in this method
+        $roboFile = preg_replace(
+            ['/^(    const THEME_SLUG\s+= )\'starter\';$/m', '/^(    const PATH_FILES_BUILD_ASSETS\s+= )\[\];$/m'],
+            ['$1\'' . $slug . '\';', sprintf("\$1[\n        '/web/app/themes/%1\$s/dist',\n        '/web/app/themes/%1\$s/node_modules',\n    ];", $slug)],
+            file_get_contents(__FILE__)
+        );
+        file_put_contents(__FILE__, $roboFile);
+
+        // The theme now belongs to the project: the starter package would install it again
+        $this->taskExec('composer')->arg('remove')->arg('idetik/starter')->option('no-scripts')->run();
+
+        $this->io()->success(sprintf('Theme %s (%s, namespace %s) ready in web/app/themes/%s.', $name, $slug, $namespace, $slug));
+        $this->io()->text('Next: vendor/bin/robo install --setup-wordpress');
+        return 0;
+    }
 
     protected function wpUrl()
     {

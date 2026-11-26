@@ -53,9 +53,14 @@ Built with [Composer](http://getcomposer.org) dependency manager and [Robo](http
 
 ## Installation
 
-1. Create a new project: ~~`composer create-project --remove-vcs globalis/wp-cubi your-project && cd your-project`~~ `git clone git@github.com:idetik/wp-cubi.git your-project && cd your-project && rm -rf ./git && composer install && composer run-script clean`
+1. Create a new project: ~~`composer create-project --remove-vcs globalis/wp-cubi your-project && cd your-project`~~ `git clone git@github.com:idetik/wp-cubi.git your-project && cd your-project && composer install && composer run-script clean`
+   `clean` removes the wp-cubi history and ends with `./vendor/bin/robo project:init`: theme folder, name and PHP namespace of the project (the starter theme is renamed, every reference to it updated, the `idetik/starter` package removed).
 2. Run installation command and answer the questions: `./vendor/bin/robo install --setup-wordpress`
 3. Access your new site administration: `/wpcb/wp-admin/`
+4. Versioning: `git init && composer git-hooks` (commit message hook), branches `master` and `develop`, then protect them (see [CONTRIBUTING.md](CONTRIBUTING.md)).
+5. Fill `docs/maquettes/` (UX handoff, `tokens.css`) and `CLAUDE.md`.
+
+Workflow, tests and production checklist: [CONTRIBUTING.md](CONTRIBUTING.md).
 
 
 ## Configuration
@@ -69,7 +74,7 @@ Built with [Composer](http://getcomposer.org) dependency manager and [Robo](http
 
 For an optimal wp-cron setup in production, apply following configuration :
 
-- Set constant `DISABLE_WP_CRON` to `true` in `./config/environments/production.php`
+- `DISABLE_WP_CRON` is `true` in `./config/environments/production.php` and `staging.php`: the server crontab is required (the Coretik queue relies on it)
 - Add to your production server crontab :
 
 ```
@@ -109,6 +114,11 @@ To avoid unwanted rollbacks when deploying, wp-cubi deploy command will check be
 
 * `./vendor/bin/wp <command>` (see [complete list](https://developer.wordpress.org/cli/commands/))
 
+### Quality
+
+* `composer test`, `composer test:db`, `composer test:integration`: unit and integration tests (see [CONTRIBUTING.md](CONTRIBUTING.md))
+* `composer analyse`: static analysis (PHPStan)
+
 ### Coding standards
 
 * `./vendor/bin/phpcs [directory]` : Check coding standards (see [`./phpcs.xml`](https://github.com/globalis-ms/wp-cubi/blob/master/phpcs.xml))
@@ -129,10 +139,14 @@ To avoid unwanted rollbacks when deploying, wp-cubi deploy command will check be
 * `./vendor/bin/robo wp:install-acf-pro [--username="<username>"] [--password="<password>"]`
 * `./vendor/bin/robo feature:start <feature-name>`
 * `./vendor/bin/robo feature:finish <feature-name>`
+* `./vendor/bin/robo project:init`
 * `./vendor/bin/robo hotfix:start [--semversion=<version>]`
 * `./vendor/bin/robo hotfix:finish [--semversion=<version>]`
-* `./vendor/bin/robo release:start [--semversion=<version>]`
-* `./vendor/bin/robo release:finish [--semversion=<version>]`
+* `./vendor/bin/robo release:preview [<branch>]`
+* `./vendor/bin/robo release:start [--semversion=<version>] [--type=<major|minor|patch>]`: version computed from the Conventional Commits when omitted
+* `./vendor/bin/robo release:finish [--semversion=<version>]`: CHANGELOG.md committed in the release, tagged
+* `./vendor/bin/robo commits:check [<range>]`
+* `./vendor/bin/robo git:hooks`
 * `./vendor/bin/robo deploy <environment> <version> [--ignore-assets] [--ignore-composer]`
 * `./vendor/bin/robo deploy:setup <environment>`
 * `./vendor/bin/robo deploy:seed <environment>`

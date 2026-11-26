@@ -6,6 +6,13 @@
 # | Compression                                                        |
 # ----------------------------------------------------------------------
 
+# Brotli first: mod_deflate leaves already encoded responses alone, so gzip only serves clients without "br"
+<IfModule mod_brotli.c>
+  <IfModule mod_filter.c>
+    AddOutputFilterByType BROTLI_COMPRESS application/atom+xml application/geo+json application/javascript application/json application/ld+json application/manifest+json application/rdf+xml application/rss+xml application/schema+json application/vnd.geo+json application/vnd.ms-fontobject application/wasm application/x-font-ttf application/x-javascript application/xhtml+xml application/xml font/eot font/opentype font/otf font/ttf image/bmp image/svg+xml image/vnd.microsoft.icon image/x-icon text/cache-manifest text/calendar text/css text/html text/javascript text/markdown text/plain text/vcard text/vtt text/x-component text/x-cross-domain-policy text/xml
+  </IfModule>
+</IfModule>
+
 <IfModule mod_deflate.c>
 
   <IfModule mod_setenvif.c>
@@ -227,6 +234,12 @@ FileETag None
       <FilesMatch "\.(js|cjs|mjs)$">
         Header set Cache-Control "max-age=31536000, public"
       </FilesMatch>
+
+  # Versioned assets (file-<version>.css|js, see the theme .htaccess and Coretik assets loader): content never
+  # changes for a given URL. <If> is merged after <FilesMatch>, so it wins
+    <If "%{REQUEST_URI} =~ m#-[0-9]{8,}\.(min\.)?(css|js)$#">
+      Header set Cache-Control "max-age=31536000, public, immutable"
+    </If>
 
 </IfModule>
 

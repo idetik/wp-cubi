@@ -5,6 +5,8 @@ namespace Globalis\WP\Cubi;
 use Monolog\Handler;
 use Inpsyde\Wonolog\Configurator;
 
+require_once __DIR__ . '/05-log-redaction.php';
+
 if (!defined('WP_CUBI_LOG_ENABLED') || true !== WP_CUBI_LOG_ENABLED) {
     define('WONOLOG_DISABLE', true);
     return;
@@ -59,6 +61,19 @@ add_action(
     'wonolog.setup',
     function (Configurator $config) use ($handler) {
         $config->pushHandler($handler);
+        // HTTP API errors without the non-blocking calls false positives (06-log-http-listener.php)
+        require_once __DIR__ . '/06-log-http-listener.php';
+        $config->disableDefaultHookListeners(\Inpsyde\Wonolog\HookListener\HttpApiListener::class);
+        $config->addActionListener(new HttpApiListener());
+        // Errors to Sentry when enabled (01-sentry.php)
+        if (sentry_enabled()) {
+            $config->pushHandler(sentry_monolog_handler());
+        }
+        // Secrets and personal data out of the log files (05-log-redaction.php)
+        $config->pushProcessor('redaction', function ($record) {
+            $http = 'HTTP' === $record->channel;
+            return $record->with(context: redact_log_context($record->context, $http), extra: redact_log_context($record->extra, $http));
+        });
     }
 );
 

@@ -9,6 +9,9 @@
  * License:             GPL2
  */
 
+// Sentry: PHP errors, before Wonolog which forwards its error records to it
+require_once __DIR__ . '/src/01-sentry.php';
+
 // Wonolog / Monolog bootstrap
 require_once __DIR__ . '/src/00-wonolog.php';
 

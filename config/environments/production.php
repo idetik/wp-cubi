@@ -14,6 +14,12 @@ define('WP_ENVIRONMENT_TYPE', 'production');
 define('QM_DISABLE_ERROR_HANDLER', false);
 define('QM_ENABLE_CAPS_PANEL', false);
 
+/* SENTRY: PHP errors (web/app/mu-modules/00-wp-cubi-core-mu/src/01-sentry.php), environment = WP_ENV.
+   The DSN is a public key (Sentry project > Settings > Client Keys); config/local.php may override it (empty string: disabled) */
+if (!defined('SENTRY_DSN')) {
+    define('SENTRY_DSN', '');
+}
+
 /* WONOLOG */
 define('WP_CUBI_LOG_ENABLED', true);
 define('WP_CUBI_LOG_LEVEL', 'INFO');
@@ -31,7 +37,7 @@ define('EMPTY_TRASH_DAYS', '100');
 /* HIDE ACF MENU */
 define('ACF_LITE', true);
 
-/* WP-CRON */
-define('DISABLE_WP_CRON', false);
+/* WP-CRON: run by the server crontab every minute (README.md, "wp-cron tasks"), the Coretik queue relies on it */
+define('DISABLE_WP_CRON', true);
 define('ALTERNATE_WP_CRON', false);
 define('WP_CRON_LOCK_TIMEOUT', 60);
