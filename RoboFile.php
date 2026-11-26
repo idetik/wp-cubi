@@ -131,10 +131,13 @@ class RoboFile extends \Globalis\WP\Cubi\Robo\RoboFile
             }
         }
         $replace(static::ROOT . '/config/application.php', ["define('WP_DEFAULT_THEME', 'starter');" => sprintf("define('WP_DEFAULT_THEME', '%s');", $slug)]);
-        $replace(__FILE__, [
-            "const THEME_SLUG  = 'starter';" => sprintf("const THEME_SLUG  = '%s';", $slug),
-            "const PATH_FILES_BUILD_ASSETS       = [];" => sprintf("const PATH_FILES_BUILD_ASSETS       = [\n        '/web/app/themes/%1\$s/dist',\n        '/web/app/themes/%1\$s/node_modules',\n    ];", $slug),
-        ]);
+        // Patterns, not the literal lines: strtr() would also rewrite them in this method
+        $roboFile = preg_replace(
+            ['/^(    const THEME_SLUG\s+= )\'starter\';$/m', '/^(    const PATH_FILES_BUILD_ASSETS\s+= )\[\];$/m'],
+            ['$1\'' . $slug . '\';', sprintf("\$1[\n        '/web/app/themes/%1\$s/dist',\n        '/web/app/themes/%1\$s/node_modules',\n    ];", $slug)],
+            file_get_contents(__FILE__)
+        );
+        file_put_contents(__FILE__, $roboFile);
 
         // The theme now belongs to the project: the starter package would install it again
         $this->taskExec('composer')->arg('remove')->arg('idetik/starter')->option('no-scripts')->run();

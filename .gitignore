@@ -50,3 +50,6 @@
 # PHPUnit
 /.phpunit.result.cache
 /.phpunit.cache
+
+# Starter theme installed by Composer (idetik/starter): project:init renames it, the project then versions it
+/web/app/themes/starter/
